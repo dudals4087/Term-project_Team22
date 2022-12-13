@@ -1,20 +1,17 @@
 import cv2
+import numpy as np
 
-img = cv2.imread('./pistol.webp')
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+img = cv2.imread('image/board.jpg')
+image_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+example = cv2.imread('image/example.jpg', 0)
+w, h = example.shape[::-1]
 
-gray = cv2.resize(gray, (16,16))
-avg = gray.mean()
-bin = 1 * (gray > avg)
-print(bin)
+result = cv2.matchTemplate(image_gray, example, cv2.TM_CCOEFF_NORMED)
 
-dhash = []
-for row in bin.tolist():
-    s = ''.join([str(i) for i in row])
-    dhash.append('%02x'%(int(s,2)))
-dhash = ''.join(dhash)
-print(dhash)
+minVal, maxVal, minLoc, maxLoc = cv2.minMaxLoc(result)
 
-cv2.namedWindow('pistol', cv2.WINDOW_GUI_NORMAL)
-cv2.imshow('pistol', img)
-cv2.waitKey(0)
+Xdot, Ydot = maxLoc
+toX, toY = Xdot + w, Ydot + h
+cv2.rectangle(img, (Xdot, Ydot), (toX, toY), (0, 0, 255), 1)
+
+cv2.imwrite('result.png', img)
