@@ -1,0 +1,18 @@
+import cv2
+
+imageA = cv2.imread("'./image/pistol.webp")  # 원본
+imageB = cv2.imread("'./image/pistol.webp")  # 비교
+imageC = imageA.copy()  # 결과물 저장용
+
+tempDiff = cv2.subtract(imageA, imageB)
+
+cv2.imwrite("D:\DEV\Code\Python\img\diff3.png", imageC)
+
+# 결과 출력
+cv2.imshow("Original", cv2.resize(imageA, (960, 540)))
+cv2.imshow("Compare", cv2.resize(imageB, (960, 540)))
+cv2.imshow("Difference", cv2.resize(imageC, (960, 540)))
+cv2.imshow("Gray", cv2.resize(diff, (960, 540)))
+cv2.imshow("Gray2", cv2.resize(tempDiff, (960, 540)))
+
+cv2.waitKey(0)
