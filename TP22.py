@@ -1,18 +1,17 @@
 import cv2
 import numpy as np
 
-image = cv2.imread('./sample.jpg')
-image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-template = cv2.imread('./template.jpg', 0)
-w, h = template.shape[::-1]
+img = cv2.imread('image/board.jpg')
+image_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+example = cv2.imread('image/example.jpg', 0)
+w, h = example.shape[::-1]
 
-result = cv2.matchTemplate(image_gray, template, cv2.TM_CCOEFF_NORMED)
-threshold = 0.89
-box_loc = np.where(result >= threshold)
+result = cv2.matchTemplate(image_gray, example, cv2.TM_CCOEFF_NORMED)
 
-for box in zip(*box_loc[::-1]):
-    startX, startY = box
-    endX, endY = startX + w, startY + h
-    cv2.rectangle(image, (startX, startY), (endX, endY), (0,0,255), 1)
+minVal, maxVal, minLoc, maxLoc = cv2.minMaxLoc(result)
 
-cv2.imwrite('result.png', image)
+Xdot, Ydot = maxLoc
+toX, toY = Xdot + w, Ydot + h
+cv2.rectangle(img, (Xdot, Ydot), (toX, toY), (0, 0, 255), 1)
+
+cv2.imwrite('result.png', img)
