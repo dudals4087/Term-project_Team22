@@ -1,6 +1,6 @@
 import cv2
 
-img = cv2.imread('./pistol.webp')
+img = cv2.imread('./image/pistol.webp')
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 gray = cv2.resize(gray, (16,16))
